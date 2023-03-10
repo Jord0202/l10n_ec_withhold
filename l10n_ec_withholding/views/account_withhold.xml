@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_withhold_group_tree" model="ir.ui.view">
+    <field name="name">l10n_ec.withhold.group.tree</field>
+    <field name="model">l10n_ec.withhold</field>
+    <field name="arch" type="xml">
+        <tree decoration-info="state=='draft'" decoration-muted="state in ['reconciled', 'cancel']">
+	    <field name="issue_date"/>
+	    <field name="document_number"/>
+            <!-- <field name="name"/> -->
+            <field name="partner_id"/>
+            <field name="withhold_totals" sum="Total" string="Monto"/>
+            <field name="state"/>
+            <field name="company_id" groups="base.group_multi_company"/>
+        </tree>
+    </field>
+    </record>
+
+    <record id="action_withholding_sales_form" model="ir.actions.act_window">
+        <field name="name">Retenciónes de cliente</field>
+        <field name="res_model">l10n_ec.withhold</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain" eval="False"/>
+        <field name="view_id" ref="view_account_withhold_group_tree"/>
+    </record>
+
+    <menuitem action="action_withholding_sales_form" id="menu_withholding_sales_form" parent="account.menu_finance_receivables" sequence="8"/>
+
+</odoo>

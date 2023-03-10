@@ -1,0 +1,4 @@
+.size_column .o_form_view .o_form_sheet {
+    display: grid;
+    grid-template-columns: 40% 60%;
+}

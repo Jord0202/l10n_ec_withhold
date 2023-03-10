@@ -1,0 +1,1850 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="tax_group_iva_no_apply" model="account.tax.group">
+            <field name="name">No Aplica I.V.A.</field>
+        </record>
+        <record id="tax_group_iva_exempt" model="account.tax.group">
+            <field name="name">I.V.A. Exento</field>
+        </record>
+        <record id="tax_group_iva_0" model="account.tax.group">
+            <field name="name">I.V.A. 0%</field>
+            <field name="l10n_ec_xml_fe_code">2</field>
+        </record>
+        <record id="tax_group_iva" model="account.tax.group">
+            <field name="name">I.V.A. 12%</field>
+            <field name="l10n_ec_xml_fe_code">2</field>
+        </record>
+        <record id="tax_group_iva_withhold" model="account.tax.group">
+            <field name="name">Retención I.V.A.</field>
+            <field name="l10n_ec_xml_fe_code">2</field>
+        </record>
+        <record id="tax_group_renta_withhold" model="account.tax.group">
+            <field name="name">Retención I.R.</field>
+            <field name="l10n_ec_xml_fe_code">1</field>
+        </record>
+        <record id="tax_group_ice" model="account.tax.group">
+            <field name="name">I.C.E.</field>
+            <field name="l10n_ec_xml_fe_code">3</field>
+        </record>
+        <record id="tax_group_irbpnr" model="account.tax.group">
+            <field name="name">IRBPNR</field>
+            <field name="l10n_ec_xml_fe_code">5</field>
+        </record>
+        <record id="tax_group_isd" model="account.tax.group">
+            <field name="name">ISD</field>
+            <field name="sequence">16</field>
+            <field name="l10n_ec_xml_fe_code">6</field>
+        </record>
+        <record id="tax_group_third_amounts" model="account.tax.group">
+            <field name="name">Third's Amounts</field>
+            <field name="sequence">17</field>
+        </record>
+        <record model="account.tax.template" id="tax_411_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Ventas locales (excluye activos fijos) gravadas tarifa diferente de cero</field>
+            <field name="description">IVA 12%</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">sale</field>
+            <field name="sequence">0</field>
+            <field name="l10n_ec_xml_fe_code">2</field>
+            <field name="tax_group_id" ref="tax_group_iva" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_411')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070101'),'tag_ids': [ref('tag_f104_421')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_411')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070101'),'tag_ids': [ref('tag_f104_421')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_412_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Ventas de activos fijos gravadas tarifa diferente de cero</field>
+            <field name="description">IVA AF 12%</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">sale</field>
+            <field name="l10n_ec_xml_fe_code">2</field>
+            <field name="tax_group_id" ref="tax_group_iva" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_412')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070102'),'tag_ids': [ref('tag_f104_422')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_412')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070102'),'tag_ids': [ref('tag_f104_422')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_423_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >IVA generado en la diferencia entre ventas y notas de crédito con distinta tarifa (ajuste a pagar)</field>
+            <field name="description" />
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">sale</field>
+            <field name="l10n_ec_xml_fe_code">0</field>
+            <field name="tax_group_id" ref="tax_group_iva_0" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_423')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_423')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_424_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >IVA generado en la diferencia entre ventas y notas de crédito con distinta tarifa (ajuste a favor)</field>
+            <field name="description" />
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">sale</field>
+            <field name="l10n_ec_xml_fe_code">0</field>
+            <field name="tax_group_id" ref="tax_group_iva_0" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_424')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_424')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_413_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Ventas locales (excluye activos fijos) gravadas tarifa 0% que no dan derecho a crédito tributario</field>
+            <field name="description">IVA 0% SCT</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">sale</field>
+            <field name="l10n_ec_xml_fe_code">0</field>
+            <field name="tax_group_id" ref="tax_group_iva_0" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_413')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_413')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_414_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Ventas de activos fijos gravadas tarifa 0% que no dan derecho a crédito tributario</field>
+            <field name="description">IVA AF 0% SCT</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">sale</field>
+            <field name="l10n_ec_xml_fe_code">0</field>
+            <field name="tax_group_id" ref="tax_group_iva_0" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_414')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_414')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_415_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Ventas locales (excluye activos fijos) gravadas tarifa 0% que dan derecho a crédito tributario</field>
+            <field name="description">IVA 0%</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">sale</field>
+            <field name="l10n_ec_xml_fe_code">0</field>
+            <field name="tax_group_id" ref="tax_group_iva_0" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_415')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_415')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_416_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Ventas de activos fijos gravadas tarifa 0% que dan derecho a crédito tributario</field>
+            <field name="description">IVA AF 0%</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">sale</field>
+            <field name="l10n_ec_xml_fe_code">0</field>
+            <field name="tax_group_id" ref="tax_group_iva_0" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_416')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_416')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_417_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Exportaciones de bienes</field>
+            <field name="description">IVA EB</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">sale</field>
+            <field name="l10n_ec_xml_fe_code">0</field>
+            <field name="tax_group_id" ref="tax_group_iva_0" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_417')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_417')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_418_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Exportaciones de servicios y/o derechos</field>
+            <field name="description">IVA ES</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">sale</field>
+            <field name="l10n_ec_xml_fe_code">0</field>
+            <field name="tax_group_id" ref="tax_group_iva_0" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_418')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_418')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_441_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Transferencias no objeto o exentas de IVA</field>
+            <field name="description">Exento IVA</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">sale</field>
+            <field name="l10n_ec_xml_fe_code">7</field>
+            <field name="tax_group_id" ref="tax_group_iva_exempt" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_441')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_441')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_444_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Ingresos por reembolso como intermediario / valores facturados por operadoras de transporte (informativo)</field>
+            <field name="description">Por Reembolso</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">sale</field>
+            <field name="l10n_ec_xml_fe_code">2</field>
+            <field name="tax_group_id" ref="tax_group_iva" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_444')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070105'),'tag_ids': [ref('tag_f104_454')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_444')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070105'),'tag_ids': [ref('tag_f104_454')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_510_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Adquisiciones y pagos (excluye activos fijos) gravados tarifa diferente de cero (con derecho a crédito tributario)</field>
+            <field name="description">IVA 12%</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="sequence">0</field>
+            <field name="l10n_ec_xml_fe_code">2</field>
+            <field name="tax_group_id" ref="tax_group_iva" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_510')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('101050101'),'tag_ids': [ref('tag_f104_520')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_510')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('101050101'),'tag_ids': [ref('tag_f104_520')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_511_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Adquisiciones locales de activos fijos gravados tarifa diferente de cero (con derecho a crédito tributario)</field>
+            <field name="description">IVA AF 12%</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">2</field>
+            <field name="tax_group_id" ref="tax_group_iva" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_511')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('101050102'),'tag_ids': [ref('tag_f104_521')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_511')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('101050102'),'tag_ids': [ref('tag_f104_521')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_512_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Otras adquisiciones y pagos gravados tarifa diferente de cero (sin derecho a crédito tributario)</field>
+            <field name="description">IVA 12% SCT</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">2</field>
+            <field name="tax_group_id" ref="tax_group_iva" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_512')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('101050103'),'tag_ids': [ref('tag_f104_522')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_512')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('101050103'),'tag_ids': [ref('tag_f104_522')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_513_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Importaciones de servicios y/o derechos gravados tarifa diferente de cero</field>
+            <field name="description">IVA 12% IS</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">2</field>
+            <field name="tax_group_id" ref="tax_group_iva" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_513')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('101050104'),'tag_ids': [ref('tag_f104_523')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_513')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('101050104'),'tag_ids': [ref('tag_f104_523')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_514_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Importaciones de bienes (excluye activos fijos) gravados tarifa diferente de cero</field>
+            <field name="description">IVA 12% IB</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">2</field>
+            <field name="tax_group_id" ref="tax_group_iva" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_514')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('101050105'),'tag_ids': [ref('tag_f104_524')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_514')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('101050105'),'tag_ids': [ref('tag_f104_524')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_515_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Importaciones de activos fijos gravados tarifa diferente de cero</field>
+            <field name="description">IVA 12% AF</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">2</field>
+            <field name="tax_group_id" ref="tax_group_iva" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_515')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('101050106'),'tag_ids': [ref('tag_f104_525')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_515')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('101050106'),'tag_ids': [ref('tag_f104_525')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_526_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >IVA generado en la diferencia entre adquisiciones y notas de crédito con distinta tarifa (ajuste en positivo al crédito tributario)</field>
+            <field name="description" />
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">0</field>
+            <field name="tax_group_id" ref="tax_group_iva_0" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_526')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_526')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_527_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >IVA generado en la diferencia entre adquisiciones y notas de crédito con distinta tarifa (ajuste en negativo al crédito tributario)</field>
+            <field name="description" />
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">0</field>
+            <field name="tax_group_id" ref="tax_group_iva_0" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_527')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_527')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_516_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Importaciones de bienes (incluye activos fijos) gravados tarifa 0%</field>
+            <field name="description">IVA 0% IB</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">0</field>
+            <field name="tax_group_id" ref="tax_group_iva_0" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_516')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_516')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_517_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Adquisiciones y pagos (incluye activos fijos) gravados tarifa 0%</field>
+            <field name="description">IVA 0%</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">0</field>
+            <field name="tax_group_id" ref="tax_group_iva_0" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_517')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_517')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_518_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Adquisiciones realizadas a contribuyentes RISE</field>
+            <field name="description">RISE</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">6</field>
+            <field name="tax_group_id" ref="tax_group_iva_0" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_518')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_518')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_541_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Adquisiciones no objeto de IVA</field>
+            <field name="description">No Objeto IVA</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">6</field>
+            <field name="tax_group_id" ref="tax_group_iva_no_apply" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_541')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_541')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_542_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Adquisiciones exentas del pago de IVA</field>
+            <field name="description">Exento IVA</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">7</field>
+            <field name="tax_group_id" ref="tax_group_iva_exempt" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_542')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_542')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_545_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Pagos netos por reembolso como intermediario / valores facturados por socios a operadoras de transporte (informativo)</field>
+            <field name="description">Por Reembolso</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">2</field>
+            <field name="tax_group_id" ref="tax_group_iva" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_545')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f104_545')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_7_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Retención IVA 0%</field>
+            <field name="description">Ret. 0% IVA</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">7</field>
+            <field name="tax_group_id" ref="tax_group_iva_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': []}), (0,0, {'factor_percent': 0,'repartition_type': 'tax','account_id': ref('201070107'),'tag_ids': [ref('tag_f104_7')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': []}), (0,0, {'factor_percent': 0,'repartition_type': 'tax','account_id': ref('201070107'),'tag_ids': [ref('tag_f104_7')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_8_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">No procede Retención</field>
+            <field name="description">No Ret.</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">8</field>
+            <field name="tax_group_id" ref="tax_group_iva_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': []}), (0,0, {'factor_percent': 0,'repartition_type': 'tax','account_id': ref('201070107'),'tag_ids': [ref('tag_f104_8')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': []}), (0,0, {'factor_percent': 0,'repartition_type': 'tax','account_id': ref('201070107'),'tag_ids': [ref('tag_f104_8')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_721_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Retención IVA del 10%</field>
+            <field name="description">Ret. 10% IVA</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">9</field>
+            <field name="tax_group_id" ref="tax_group_iva_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': []}), (0,0, {'factor_percent': -10,'repartition_type': 'tax','account_id': ref('201070108'),'tag_ids': [ref('tag_f104_721')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': []}), (0,0, {'factor_percent': -10,'repartition_type': 'tax','account_id': ref('201070108'),'tag_ids': [ref('tag_f104_721')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_723_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Retención IVA del 20%</field>
+            <field name="description">Ret. 20% IVA</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">10</field>
+            <field name="tax_group_id" ref="tax_group_iva_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': []}), (0,0, {'factor_percent': -20,'repartition_type': 'tax','account_id': ref('201070109'),'tag_ids': [ref('tag_f104_723')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': []}), (0,0, {'factor_percent': -20,'repartition_type': 'tax','account_id': ref('201070109'),'tag_ids': [ref('tag_f104_723')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_725_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Retención IVA del 30%</field>
+            <field name="description">Ret. 30% IVA</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">1</field>
+            <field name="tax_group_id" ref="tax_group_iva_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': []}), (0,0, {'factor_percent': -30,'repartition_type': 'tax','account_id': ref('201070110'),'tag_ids': [ref('tag_f104_725')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': []}), (0,0, {'factor_percent': -30,'repartition_type': 'tax','account_id': ref('201070110'),'tag_ids': [ref('tag_f104_725')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_727_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Retención IVA del 50%</field>
+            <field name="description">Ret. 50% IVA</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">11</field>
+            <field name="tax_group_id" ref="tax_group_iva_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': []}), (0,0, {'factor_percent': -50,'repartition_type': 'tax','account_id': ref('201070111'),'tag_ids': [ref('tag_f104_727')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': []}), (0,0, {'factor_percent': -50,'repartition_type': 'tax','account_id': ref('201070111'),'tag_ids': [ref('tag_f104_727')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_729_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Retención IVA del 70%</field>
+            <field name="description">Ret. 70% IVA</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">2</field>
+            <field name="tax_group_id" ref="tax_group_iva_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': []}), (0,0, {'factor_percent': -70,'repartition_type': 'tax','account_id': ref('201070112'),'tag_ids': [ref('tag_f104_729')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': []}), (0,0, {'factor_percent': -70,'repartition_type': 'tax','account_id': ref('201070112'),'tag_ids': [ref('tag_f104_729')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_731_iva">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Retención IVA del 100%</field>
+            <field name="description">Ret. 100% IVA</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="l10n_ec_xml_fe_code">3</field>
+            <field name="tax_group_id" ref="tax_group_iva_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': []}), (0,0, {'factor_percent': -100,'repartition_type': 'tax','account_id': ref('201070113'),'tag_ids': [ref('tag_f104_731')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': []}), (0,0, {'factor_percent': -100,'repartition_type': 'tax','account_id': ref('201070113'),'tag_ids': [ref('tag_f104_731')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_302">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">En relación de dependencia que supera o no la base desgravada</field>
+            <field name="description">302</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">none</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_302')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_352')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_302')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_352')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_303">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Servicios Honorarios profesionales</field>
+            <field name="description">303</field>
+            <field name="amount">-10</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_303')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_353')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_303')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_353')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_304">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Servicios Predomina el intelecto</field>
+            <field name="description">304</field>
+            <field name="amount">-8</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_304')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_354')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_304')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_354')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_307">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Servicios Predomina la mano de obra</field>
+            <field name="description">307</field>
+            <field name="amount">-2</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_307')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_357')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_307')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_357')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_308">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Servicios Utilización o aprovechamiento de la imagen o renombre</field>
+            <field name="description">308</field>
+            <field name="amount">-10</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_308')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_358')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_308')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_358')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_309">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Servicios Publicidad y comunicación</field>
+            <field name="description">309</field>
+            <field name="amount">-1.75</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_309')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_359')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_309')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_359')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_310">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Servicios Transporte privado de pasajeros o servicio público o privado de carga</field>
+            <field name="description">310</field>
+            <field name="amount">-1</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_310')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_360')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_310')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_360')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_311">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">A través de liquidaciones de compra (nivel cultural o rusticidad)</field>
+            <field name="description">311</field>
+            <field name="amount">-2</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_311')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_361')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_311')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_361')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_312">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Transferencia de bienes muebles de naturaleza corporal</field>
+            <field name="description">312</field>
+            <field name="amount">-1.75</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_312')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_362')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_312')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_362')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_312a">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Compra de bienes de origen agrícola, avícola, pecuario, apícola, cunícula, bioacuático, forestal y carnes en estado natural</field>
+            <field name="description">312A</field>
+            <field name="l10n_ec_ats_code">312A</field>
+            <field name="amount">-1</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_312')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_362')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_312')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_362')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_314">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Por regalías, derechos de autor, marcas, patentes y similares</field>
+            <field name="description">314</field>
+            <field name="amount">-8</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_314')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_364')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_314')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_364')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_319">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Arrendamiento Mercantil</field>
+            <field name="description">319</field>
+            <field name="amount">-1.75</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_319')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_369')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_319')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_369')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_320">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Arrendamiento Bienes inmuebles</field>
+            <field name="description">320</field>
+            <field name="amount">-8</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_320')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_370')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_320')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_370')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_322">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Seguros y reaseguros (primas y cesiones)</field>
+            <field name="description">322</field>
+            <field name="amount">-1.75</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_322')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_372')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_322')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_372')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_323">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Rendimientos financieros</field>
+            <field name="description">323</field>
+            <field name="amount">-2</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_323')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_373')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_323')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_373')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_324">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Rendimientos financieros entre instituciones del sistema financiero y entidades economía popular y solidaria</field>
+            <field name="description">324</field>
+            <field name="amount">-1</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_324')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_374')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_324')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_374')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_325">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Anticipo dividendos</field>
+            <field name="description">325</field>
+            <field name="amount">-25</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_325')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_375')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_325')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_375')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_326">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Dividendos distribuidos que correspondan al impuesto a la renta único establecido en el art. 27 de la LRTI</field>
+            <field name="description">326</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_326')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),] "
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_326')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),] "
+            />
+        </record>
+        <record model="account.tax.template" id="tax_327">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Dividendos distribuidos a personas naturales residentes</field>
+            <field name="description">327</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_327')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),] "
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_327')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),] "
+            />
+        </record>
+        <record model="account.tax.template" id="tax_328">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Dividendos distribuidos a sociedades residentes</field>
+            <field name="description">328</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_328')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),] "
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_328')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),] "
+            />
+        </record>
+        <record model="account.tax.template" id="tax_329">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Dividendos distribuidos a fideicomisos residentes</field>
+            <field name="description">329</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_329')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),] "
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_329')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),] "
+            />
+        </record>
+        <record model="account.tax.template" id="tax_330">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Dividendos gravados distribuidos en acciones (reinversión de utilidades sin derecho a reducción tarifa IR)</field>
+            <field name="description">330</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_330')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),] "
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_330')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),] "
+            />
+        </record>
+        <record model="account.tax.template" id="tax_331">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Dividendos exentos distribuidos en acciones (reinversión de utilidades con derecho a reducción tarifa IR)</field>
+            <field name="description">331</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_331')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),] "
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_331')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),] "
+            />
+        </record>
+        <record model="account.tax.template" id="tax_332">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Pagos de bienes y servicios no sujetos a retención</field>
+            <field name="description">332</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_332')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),] "
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_332')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),] "
+            />
+        </record>
+        <record model="account.tax.template" id="tax_333">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Enajenación de derechos representativos de capital y otros derechos cotizados en bolsa ecuatoriana</field>
+            <field name="description">333</field>
+            <field name="amount">-10</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_333')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_383')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_333')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_383')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_334">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Enajenación de derechos representativos de capital y otros derechos no cotizados en bolsa ecuatoriana</field>
+            <field name="description">334</field>
+            <field name="amount">-1</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_334')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_384')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_334')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_384')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_335">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Loterías, rifas, apuestas y similares</field>
+            <field name="description">335</field>
+            <field name="amount">-15</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_335')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_385')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_335')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_385')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_343">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Aplicables el 1%</field>
+            <field name="description">343</field>
+            <field name="amount">-1</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_343')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_393')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_343')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_393')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_343a">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Energía eléctrica</field>
+            <field name="description">343A</field>
+            <field name="l10n_ec_ats_code">343A</field>
+            <field name="amount">-1</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_343')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_393')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_343')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_393')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_343b">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Actividades de construcción de obra material inmueble, urbanización, lotización o actividades similares</field>
+            <field name="description">343B</field>
+            <field name="l10n_ec_ats_code">343B</field>
+            <field name="amount">-1.75</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_343')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_393')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_343')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_393')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_343c">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Impuesto Redimible a las botellas plásticas - IRBP</field>
+            <field name="description">343C</field>
+            <field name="l10n_ec_ats_code">343C</field>
+            <field name="amount">-1</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_343')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_393')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_343')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_393')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_3440">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Otras retenciones aplicables el 2,75%</field>
+            <field name="description">3440</field>
+            <field name="amount">-2.75</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_3440')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_3940')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_3440')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_3940')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_345">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Aplicables el 8%</field>
+            <field name="description">345</field>
+            <field name="amount">-8</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_345')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_395')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_345')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_395')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_346">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Aplicables a otros porcentajes</field>
+            <field name="description">346</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_346')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax', 'account_id': ref('201070106'),'tag_ids': [ref('tag_f103_396')]}),] "
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_346')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax', 'account_id': ref('201070106'),'tag_ids': [ref('tag_f103_396')]}),] "
+            />
+        </record>
+        <record model="account.tax.template" id="tax_402">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Con convenio de doble tributación</field>
+            <field name="description">402</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_402')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_452')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_402')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_452')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_403">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Con convenio de doble tributación Intereses de créditos</field>
+            <field name="description">403</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_403')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_453')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_403')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_453')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_404">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Con convenio de doble tributación Anticipo de dividendos</field>
+            <field name="description">404</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_404')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_454')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_404')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_454')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_405">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Con convenio de doble tributación Dividendos distribuidos a personas naturales</field>
+            <field name="description">405</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_405')]}),] "
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_405')]}),] "
+            />
+        </record>
+        <record model="account.tax.template" id="tax_406">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Con convenio de doble tributación Dividendos distribuidos a sociedades</field>
+            <field name="description">406</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_406')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_456')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_406')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_456')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_407">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Con convenio de doble tributación Dividendos distribuidos a fideicomisos</field>
+            <field name="description">407</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_407')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_457')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_407')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_457')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_408">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Con convenio de doble tributación Enajenación de derechos representativos de capital y otros derechos</field>
+            <field name="description">408</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_408')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_458')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_408')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_458')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_409">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Con convenio de doble tributación Seguros y reaseguros (primas y cesiones)</field>
+            <field name="description">409</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_409')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_459')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_409')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_459')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_410">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Con convenio de doble tributación Servicios técnicos, administrativos o de consultoría y regalías</field>
+            <field name="description">410</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_410')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_460')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_410')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_460')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_411">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Con convenio de doble tributación Otros conceptos de ingresos gravados</field>
+            <field name="description">411</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_411')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_461')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_411')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_461')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_412">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Con convenio de doble tributación Otros pagos al exterior no sujetos a retención</field>
+            <field name="description">412</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_412')]}),] "
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_412')]}),] "
+            />
+        </record>
+        <record model="account.tax.template" id="tax_413">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Sin convenio de doble tributación Intereses por financiamiento de proveedores</field>
+            <field name="description">413</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_413')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_463')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_413')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_463')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_414">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Sin convenio de doble tributación Intereses de créditos</field>
+            <field name="description">414</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_414')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_464')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_414')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_464')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_415">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Sin convenio de doble tributación Anticipo de dividendos</field>
+            <field name="description">415</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_415')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_465')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_415')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_465')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_416">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Sin convenio de doble tributación Dividendos distribuidos a personas naturales</field>
+            <field name="description">416</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_416')]}),] "
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_416')]}),] "
+            />
+        </record>
+        <record model="account.tax.template" id="tax_417">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Sin convenio de doble tributación Dividendos distribuidos a sociedades</field>
+            <field name="description">417</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_417')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_467')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_417')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_467')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_418">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Sin convenio de doble tributación Dividendos distribuidos a fideicomisos</field>
+            <field name="description">418</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_418')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_468')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_418')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_468')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_419">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Sin convenio de doble tributación Enajenación de derechos representativos de capital y otros derechos</field>
+            <field name="description">419</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_419')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_469')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_419')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_469')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_420">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Sin convenio de doble tributación Seguros y reaseguros (primas y cesiones)</field>
+            <field name="description">420</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_420')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_470')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_420')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_470')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_421">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >Sin convenio de doble tributación Servicios técnicos, administrativos o de consultoría y regalías</field>
+            <field name="description">421</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_421')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_471')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_421')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_471')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_422">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Sin convenio de doble tributación Otros conceptos de ingresos gravados</field>
+            <field name="description">422</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_422')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_472')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_422')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_472')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_423">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">Sin convenio de doble tributación Otros pagos al exterior no sujetos a retención</field>
+            <field name="description">423</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_423')]}),] "
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_423')]}),] "
+            />
+        </record>
+        <record model="account.tax.template" id="tax_424">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >En paraísos fiscales o regímenes fiscales preferentes Intereses por financiamiento de proveedores</field>
+            <field name="description">424</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_424')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_474')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_424')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_474')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_425">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field name="name">En paraísos fiscales o regímenes fiscales preferentes Anticipo de dividendos</field>
+            <field name="description">425</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_425')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_475')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_425')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_475')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_426">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >En paraísos fiscales o regímenes fiscales preferentes Dividendos distribuidos a personas naturales</field>
+            <field name="description">426</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_426')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_476')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_426')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_476')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_427">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >En paraísos fiscales o regímenes fiscales preferentes Dividendos distribuidos a sociedades</field>
+            <field name="description">427</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_427')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_477')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_427')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_477')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_428">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >En paraísos fiscales o regímenes fiscales preferentes Dividendos distribuidos a fideicomisos</field>
+            <field name="description">428</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_428')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_478')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_428')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_478')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_429">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >En paraísos fiscales o regímenes fiscales preferentes Enajenación de derechos representativos de capital y otros derechos</field>
+            <field name="description">429</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_429')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_479')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_429')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_479')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_430">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >En paraísos fiscales o regímenes fiscales preferentes Seguros y reaseguros (primas y cesiones)</field>
+            <field name="description">430</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_430')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_480')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_430')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_480')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_431">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >En paraísos fiscales o regímenes fiscales preferentes Servicios técnicos, administrativos o de consultoría y regalías</field>
+            <field name="description">431</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_431')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_481')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_431')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_481')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_432">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >En paraísos fiscales o regímenes fiscales preferentes Otros conceptos de ingresos gravados</field>
+            <field name="description">432</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_432')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_482')]}),]"
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_432')]}), (0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': ref('201070106'),'tag_ids': [ref('tag_f103_482')]}),]"
+            />
+        </record>
+        <record model="account.tax.template" id="tax_433">
+            <field name="chart_template_id" ref="l10n_ec.withhold.ec_chart_template" />
+            <field
+                name="name"
+            >En paraísos fiscales o regímenes fiscales preferentes Otros pagos al exterior no sujetos a retención</field>
+            <field name="description">433</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="l10n_ec.withhold.tax_group_renta_withhold" />
+            <field
+                name="invoice_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_433')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),] "
+            />
+            <field
+                name="refund_repartition_line_ids"
+                eval="[(5, 0, 0), (0,0, {'factor_percent': 100, 'repartition_type': 'base','tag_ids': [ref('tag_f103_433')]}),(0,0, {'factor_percent': 0,'repartition_type': 'tax',}),] "
+            />
+        </record>
+    </data>
+</odoo>

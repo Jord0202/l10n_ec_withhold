@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="account_payment_withhold">
+            <field name="name">payment_group_inherit</field>
+            <field name="model">account.payment.group</field>
+            <field name="inherit_id" ref="account_payment_group.view_account_payment_group_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='communication']" position="after">
+                    <field name="withhold_bool" string="Retencion"/>
+                    <field name="document_withhold" attrs="{'invisible': [('withhold_bool', '!=', True)]}" domain="[('invoice_id','in',[related_invoice]),('state','=','done')]"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

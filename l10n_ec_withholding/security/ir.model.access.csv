@@ -1,0 +1,10 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_l10n_ec_withhold_all","access_l10n_ec_withhold_all","l10n_ec_withholding.model_l10n_ec_withhold",,1,0,0,0
+"access_l10n_ec_withhold_user","access_l10n_ec_withhold_user","l10n_ec_withholding.model_l10n_ec_withhold","account.group_account_user",1,1,1,0
+"access_l10n_ec_withhold_manager","access_l10n_ec_withhold_manager","l10n_ec_withholding.model_l10n_ec_withhold","account.group_account_manager",1,1,1,1
+"access_l10n_ec_withhold_line_all","access_l10n_ec_withhold_line_all","l10n_ec_withholding.model_l10n_ec_withhold_line",,1,0,0,0
+"access_l10n_ec_withhold_line_user","access_l10n_ec_withhold_line_user","l10n_ec_withholding.model_l10n_ec_withhold_line","account.group_account_user",1,1,1,1
+"access_l10n_ec_withhold_line_manager","access_l10n_ec_withhold_line_manager","l10n_ec_withholding.model_l10n_ec_withhold_line","account.group_account_manager",1,1,1,1
+"access_l10n_ec_withhold_line_percent_all","access_l10n_ec_withhold_line_percent_all","l10n_ec_withholding.model_l10n_ec_withhold_line_percent",,1,0,0,0
+"access_l10n_ec_withhold_line_percent_user","access_l10n_ec_withhold_line_percent_user","l10n_ec_withholding.model_l10n_ec_withhold_line_percent","account.group_account_user",1,1,1,1
+"access_l10n_ec_withhold_line_percent_manager","access_l10n_ec_withhold_line_percent_manager","l10n_ec_withholding.model_l10n_ec_withhold_line_percent","account.group_account_manager",1,1,1,1

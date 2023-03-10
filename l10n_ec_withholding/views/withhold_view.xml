@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+
+        <record id="l10n_ec_withhold_tree_view" model="ir.ui.view">
+            <field name="name">l10n_ec.withhold.tree</field>
+            <field name="model">l10n_ec.withhold</field>
+            <field name="priority">20</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="document_number"/>
+                    <field name="partner_id"/>
+                    <field name="issue_date"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+        <record id="l10n_ec_withhold_sales_act_window" model="ir.actions.act_window">
+            <field name="name">Sales Withholds</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">l10n_ec.withhold</field>
+            <field name="view_mode">tree,kanban,form,pivot</field>
+            <field name="context">{"withhold_type": 'sale'}</field>
+            <field name="domain">[('type', '=', 'sale')]</field>
+            <field name="view_id" ref="l10n_ec_withhold_tree_view" />
+        </record>
+
+
+
+
+        <record id="l10n_ec_withhold_form_view" model="ir.ui.view">
+            <field name="name">l10n_ec.withhold.form</field>
+            <field name="model">l10n_ec.withhold</field>
+            <field name="arch" type="xml">
+                <form string="Withhold">
+                    <header>
+                        <button name="button_validate" string="Validar" class="oe_highlight" type="object" states="draft"/>
+                        <button name="action_cancel" string="Anular" type="object" states="draft,done"/>
+                        <button name="action_draft" string="Volver a Borrador" type="object" states="cancel"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done" />
+                    </header>
+                        <h1>
+                            <label for="document_number" string="Numero de Retencion" />
+                            <div style="width: 50%">
+                                <field
+                                    name="document_number"
+                                    force_save="1"
+                                />
+                            </div>
+                        </h1>
+                        <group>
+                            <group>
+                                <div class="o_td_label">
+                                    <label for="partner_id" string="Customer" style="font-weight:bold;" />
+                                </div>
+                                <field name="partner_id" nolabel="1" string="Cliente:" domain="{'invisible':[('move_type', 'not in', ('in_invoice', 'in_receipt', 'in_refund'))]}"/>
+                                <field
+                                    name="invoice_id"
+                                    attrs="{'invisible': [('state', '!=', 'draft')]}"
+                                    domain="[('partner_id', '=', partner_id), ('state', '=', 'posted'), ('move_type', '=', 'out_invoice')]"
+                                />
+                            </group>
+                            <group>
+                                <field name="issue_date" />
+                                <field name="document_type" />
+
+                                <field name="type" invisible="1" />
+                                <field name="no_number" invisible="1" />
+                                <field name="currency_id" invisible="1" />
+                                <field
+                                    name="l10n_ec_supplier_authorization_number"
+                                    attrs="{'invisible': ['|', ('document_type', 'not in', ('pre_printed', 'auto_printer')), ('type', '!=', 'sale'), ('l10n_ec_supplier_authorization_number', '=', False)],
+                                            'required': [('document_type', 'in', ('pre_printed', 'auto_printer')), ('type', '=', 'sale'),]}"
+                                />
+                                <field
+                                    name="electronic_authorization"
+                                    attrs="{'invisible': ['|', ('document_type', '!=', 'electronic'), '&amp;', ('type', '=', 'purchase'), ('electronic_authorization', '=', False)], 'required': [('document_type', '=', 'electronic'), ('type', '=', 'sale')]}"
+                                />
+                            </group>
+                            <label for="concept" />
+                            <field name="concept" />
+                        </group>
+                        <notebook colspan="4">
+                            <page name="withhold_lines" string="Lines">
+                                <field
+                                    name="line_ids"
+                                    colspan="4"
+                                    context="{'default_invoice_id': invoice_id, 'default_currency_id': currency_id}"
+                                >
+                                    <tree editable="bottom">
+                                        <field name="tax_withhold_ids" width='50%' domain="[('type_tax_use','in',['VAT Withhold', 'Profit Withhold', ])]"/>
+                                        <field name="base_amount" width='25%'/>
+                                        <field name="withhold_amount" width='25%' />
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right" >
+                                    <field name="withhold_totals" class="oe_subtotal_footer_separator" style="font-size: 21px;" />
+                                </group>
+                            </page>
+                        </notebook>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />
+                        <field name="activity_ids" widget="mail_activity" />
+                        <field name="message_ids" widget="mail_thread" />
+                    </div>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
