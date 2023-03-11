@@ -54,8 +54,10 @@ class L10nEcWithholdLine(models.Model):
         for base in self:
             if base.tax_withhold_ids.type_tax_use == "Profit Withhold":
                 base.base_amount = base.withhold_id.invoice_id.amount_untaxed
+                base.base_amount = round(base.base_amount,2)
             elif base.tax_withhold_ids.type_tax_use == "VAT Withhold":
                 base.base_amount = base.withhold_id.invoice_id.amount_untaxed * 0.12
+                base.base_amount = round(base.base_amount,2)
             else:
                 0.00
 
@@ -63,6 +65,7 @@ class L10nEcWithholdLine(models.Model):
     def _compute_valor_withhold(self):
         for amount_base in self:
             amount_base.withhold_amount = amount_base.base_amount * amount_base.tax_withhold_ids.amount/100
+            amount_base.withhold_amount = round(amount_base.withhold_amount,2)
 
 
 
